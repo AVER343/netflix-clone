@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "include": ["next-env.d.ts","custom.d.ts","**/*.ts", "**/*.tsx", "components/header/index.tsx", "components/header/Components/navItem.tsx", "components/header/Components/CSS_transition.jhsx", "pages/api/auth/[...nextauth].jsx"],
+  "exclude": ["node_modules"]
+}

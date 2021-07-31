@@ -1,0 +1,79 @@
+body {
+  margin: 0;
+  background: #151616;
+  font-family: roboto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+:root {
+  --bg:  #242526;
+  --bg-accent: #484a4d;
+  --text-color: #dadce1;
+  --nav-size: 60px;
+  --border: 1px solid #474a4d;
+  --border-radius: 8px;
+  --speed: 300ms; 
+  --svg-background:#fff;
+  --svg-background-onHover:#000;
+  --important-success-button-background:var(--chakra-colors-teal-400);
+  --important-success-button-background-onhover:var(--chakra-colors-teal-300);
+
+}
+.chakra-ui-light{
+  --svg-background:#fff;
+  --svg-background-onHover:var(--chakra-colors-gray-600);
+  --bg:  var(--chakra-colors-gray-400);
+  --bg-primary: var(--chakra-colors-gray-300);
+  --bg-secondary: var(--chakra-colors-gray-100);
+  --text-color: var(--chakra-colors-gray-500);
+  --text-color-primary: var(--chakra-colors-gray-400);
+  --text-color-secondary: var(--chakra-colors-gray-100);
+  --nav-size: 60px;
+  --border: 1px solid #474a4d;
+  --border-radius: 8px;
+  --speed: 100ms;
+  --important-success-button-background:var(--chakra-colors-teal-200);
+  --important-success-button-background-onhover:var(--chakra-colors-teal-300);
+  --important-success-button-color:#000;
+}
+.important-success-button{
+  background-color: var(--important-success-button-background) !important;
+  color:var(--important-success-button-color);
+}
+.important-success-button:hover{
+  background-color: var(--important-success-button-background-onhover) !important;
+}
+.chakra-ui-dark{
+  --important-success-button-color:#fff;
+  --svg-background:#000;
+  --svg-background-onHover:#fff;
+  --important-success-button-background-onhover:var(--chakra-colors-teal-600);
+  --important-success-button-background:var(--chakra-colors-teal-700);
+  --bg:  var(--chakra-colors-gray-700);
+  --bg-primary: var(--chakra-colors-gray-500);
+  --bg-secondary: var(--chakra-colors-gray-800);
+  --text-color: var(--chakra-colors-gray-300);
+  --text-color-primary: var(--chakra-colors-gray-200);
+  --text-color-secondary: var(--chakra-colors-gray-100);
+  --nav-size: 60px;
+  --border: 1px solid #474a4d;
+  --border-radius: 8px;
+  --speed: 100ms; 
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;;
+}

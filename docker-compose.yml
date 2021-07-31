@@ -1,0 +1,37 @@
+version: '3'
+services: 
+  redis-server:
+    image: 'redis'
+    restart: always
+  postgres-server:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports: 
+      - "5433:5432"
+    volumes:
+        - ./docker/postgres/data/data/pg_hba.conf:/var/lib/postgresql/app_data/pg_hba.conf
+        - ./pgdata:/var/lib/postgresql/data
+        - ./src/db/sql/CREATE_TABLES.sql:/docker-entrypoint-initdb.d/CREATE_TABLES.sql
+        - ./src/db/sql/INSERT_TO_TABLES.sql:/docker-entrypoint-initdb.d/INSERT_TO_TABLES.sql
+        - ./src/db/sql/CREATE_FUNCTIONS.sql:/docker-entrypoint-initdb.d/CREATE_FUNCTIONS.sql
+  node-app:
+    build: .
+    ports: 
+      - "4200:4200"
+    depends_on:
+      - postgres-server
+      - redis-server
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client
+    restart: always
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - 3000:3000
