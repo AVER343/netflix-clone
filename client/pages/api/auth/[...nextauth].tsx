@@ -1,7 +1,7 @@
 import axios from 'axios'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-
+import constants from '../../../Shared/Constants'
 export default NextAuth({
   callbacks:{
     jwt: async (token, user, account, profile, isNewUser) => {
@@ -23,7 +23,7 @@ export default NextAuth({
       },
       async authorize(credentials:any, req) {
             try{
-            const res = await axios.post('http://node-app:4200/users/login',credentials)
+            const res = await axios.post(`${constants.APIHost}/users/login`,credentials)
             console.log({data:res.data})
             if(res.status==200)
             {

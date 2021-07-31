@@ -11,7 +11,6 @@ const colors = {
   },
 }
 const theme = extendTheme({ colors })
-// import theme from '../utils/theme'
 import { ChakraProvider } from '@chakra-ui/react'
 import HeaderComponent from '../components/header'
 import { Provider } from "next-auth/client"

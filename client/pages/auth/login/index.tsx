@@ -40,8 +40,8 @@ const LoginArea = () => {
         boxShadow='lg'
       >
         <Box p={4}>
-          <LoginHeader />
-          <LoginForm />
+          {/* <LoginHeader />
+          <LoginForm /> */}
         </Box>
       </Box>
     </Flex>
