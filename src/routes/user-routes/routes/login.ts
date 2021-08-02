@@ -26,10 +26,8 @@ Login.post('*/login',
                 {
                     return HandleResponse(res,Messages.EMAIL_NOT_VERIFIED,{type:'error',statusCode:400})
                 }
-                console.log({id:user.getUser().id})
                 const Us_u =await pool.query('SELECT * FROM USERS WHERE id = $1;',[user.getUser().id]) 
                 const isCorrectPassword = await bcrypt.compare(req.body.password,Us_u.rows[0]['password'])
-                console.log({isCorrectPassword})
                 if(!isCorrectPassword)
                 {
                     return HandleResponse(res,Messages.INCORRECT_PASSWOD,{type:'error',statusCode:400})

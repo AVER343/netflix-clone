@@ -1,0 +1,8 @@
+export {default as Footer }from './footer'
+export {default as JumboTron }from './jumbotron'
+export {default as Accordion }from './accordion'
+export {default as OptForm }from './opt-form'
+export {default as Feature }from './feature'
+export {default as Form }from './form'
+export {default as Header }from './headers'
+export {default as CustomToast } from './netflix-toast'

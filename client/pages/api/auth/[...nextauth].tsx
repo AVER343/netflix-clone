@@ -1,7 +1,7 @@
 import axios from 'axios'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-import constants from '../../../Shared/Constants'
+import {APIHostFromServer} from '../../../Shared/Constants'
 export default NextAuth({
   callbacks:{
     jwt: async (token, user, account, profile, isNewUser) => {
@@ -22,25 +22,25 @@ export default NextAuth({
         password: {  label: "Password", type: "password",placeholder: "*********" }
       },
       async authorize(credentials:any, req) {
-            try{
-            const res = await axios.post(`${constants.APIHost}/users/login`,credentials)
-            console.log({data:res.data})
+        try{
+          console.log(typeof window)
+            const res = await axios.post(`${APIHostFromServer}/users/login`,credentials)
             if(res.status==200)
             {
               return res.data
             }
           }
         catch(e:any){
-        console.log(e.response.data)
+          console.log(e)
+          return Promise.reject(new Error(e?.response?.data?.['messages']?.[0]?.['message']||'Something went wrong !'))
         }
-        return null
       }
     })
   ],
   pages: {
-    signIn: '/auth/login',
+    signIn: '/login',
     // signOut: '/auth/signout',
-    // error: '/auth/error', // Error code passed in query string as ?error=
+    error: '/login', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: undefined // If set, new users will be directed here on first sign in
   },

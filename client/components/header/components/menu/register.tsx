@@ -18,7 +18,7 @@ const RegisterMenu=(props:any)=>{
                       leftIcon={<ArrowIcon/>}>
       <h2>{menu_representation.filter(e=>e.goToMenu==MenuTitles_ENUM.REGISTER)['0']['name']}</h2>
         </DropdownItem>
-      {!session && <DropdownItem key={1} index={1} setActiveMenu={props.setActiveMenu} onClick={()=>router.push('/auth/login')}>
+      {!session && <DropdownItem key={1} index={1} setActiveMenu={props.setActiveMenu} onClick={()=>router.push('/login')}>
           Login</DropdownItem>}
   </div>
 }
