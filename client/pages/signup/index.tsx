@@ -7,8 +7,9 @@ import './signup.module.css'
 import {useToast} from '@chakra-ui/react'
 import { CustomToast, Form } from '../../components';
 import { Header,Footer } from '../../containers';
+import { signIn } from 'next-auth/client';
 export default function SignIn() {
-  const [error, setError] = useState('');
+  const [error, setError] = useState<String|null>(null);
   let router = useRouter()
   let toast  = useToast()
   const toastIdRef:any = React.useRef()
@@ -19,14 +20,15 @@ export default function SignIn() {
       let res = await APIRequests.userSignUp(data)
       if(res.status==201)
       {
-        setError('')
+          setError('')
           toastIdRef.current = toast({
-          title: "Account created.",
-          description: res?.data?.messages?.[0]?.['message']||`Account successfully created`,
-          render:()=>(<CustomToast onClose={()=>toast.close(toastIdRef.current)}>{res?.data?.messages?.[0]?.['message']||'Account successfully created'}</CustomToast>),
-          duration: 9000,
-          isClosable: true,
-        })
+                  title: "Account created.",
+                  description: res?.data?.messages?.[0]?.['message']||`Account successfully created`,
+                  render:()=>(<CustomToast onClose={()=>toast.close(toastIdRef.current)}>{res?.data?.messages?.[0]?.['message']||'Account successfully created'}</CustomToast>),
+                  duration: 9000,
+                  isClosable: true,
+                })
+          signIn('credentials',data)
           router.push(ROUTES.HOMEPAGE)
       }
     }

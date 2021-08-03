@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "configure": "bash configure.db.sh",
-    "start": "nodemon index.ts",
-    "dev": "cd client && npm run dev"
+     "build": "npx typescript",
+    "build:watch": "npx typescript -w",
+    "dev": "npx concurrently \"npm run build\" \"npm run dev:run\"",
+    "dev:watch": "npx concurrently \"npm run build:watch\" \"npm run dev:run\"",
+    "dev:run": "npx nodemon lib/index.js",
+    "start": "node lib/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",

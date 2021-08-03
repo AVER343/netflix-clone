@@ -5,10 +5,10 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm i --silent
 
-COPY . .
+ADD . /app 
 
-EXPOSE 4200
+RUN npm run build 
 
-CMD [ "npm","run","start"]
+CMD npm start

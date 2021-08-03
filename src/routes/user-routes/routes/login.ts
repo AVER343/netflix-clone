@@ -22,10 +22,10 @@ Login.post('*/login',
                 {
                     return HandleResponse(res,Messages.USER_NOT_EXIST,{type:'error',statusCode:400})
                 }
-                if(!user.getUser()['user_verified'])
-                {
-                    return HandleResponse(res,Messages.EMAIL_NOT_VERIFIED,{type:'error',statusCode:400})
-                }
+                // if(!user.getUser()['user_verified'])
+                // {
+                //     return HandleResponse(res,Messages.EMAIL_NOT_VERIFIED,{type:'error',statusCode:400})
+                // }
                 const Us_u =await pool.query('SELECT * FROM USERS WHERE id = $1;',[user.getUser().id]) 
                 const isCorrectPassword = await bcrypt.compare(req.body.password,Us_u.rows[0]['password'])
                 if(!isCorrectPassword)

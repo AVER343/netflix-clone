@@ -40,6 +40,8 @@ Signup.post('*/signup',
                 await new_user.save()
                 let OTP = await new_user.getOTP(req.body.email!)
                 User.sendEmail({email:req.body.email,OTP:OTP},undefined,new_user.getUser().id)
+                let JWT = await new_user.setJWT()
+                res.cookie('JWT',JWT,{maxAge:120*60*1000})
             return HandleResponse(res,Messages.SIGNED_UP,{type:'success',statusCode:201})
            }
            catch(e:any){
