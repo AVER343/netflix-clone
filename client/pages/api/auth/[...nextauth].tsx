@@ -1,7 +1,7 @@
 import axios from 'axios'
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-import {APIHostFromServer} from '../../../Shared/Constants'
+import API from '../../../Shared/API'
 export default NextAuth({
   callbacks:{
     jwt: async (token, user, account, profile, isNewUser) => {
@@ -23,8 +23,7 @@ export default NextAuth({
       },
       async authorize(credentials:any, req) {
         try{
-          console.log(typeof window)
-            const res = await axios.post(`${APIHostFromServer}/users/login`,credentials)
+            const res = await API.userSignIn(credentials)
             if(res.status==200)
             {
               return res.data

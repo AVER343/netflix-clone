@@ -14,12 +14,12 @@ export const Container = styled.div`
 `;
 
 export const Input = styled.input`
-  max-width: 450px;
+  max-width: 400px;
   width: 100%;
   border: 0;
   color:var(--bg);
   padding: 10px;
-  height: 70px;
+  height: 50px;
   box-sizing: border-box;
 `;
 
@@ -31,12 +31,12 @@ export const Break = styled.div`
 export const Button = styled.button`
   display: flex;
   align-items: center;
-  height: 70px;
+  height: 50px;
   background: #e50914;
   color: white;
   text-transform: uppercase;
   padding: 0 32px;
-  font-size: 26px;
+  font-size: 22px;
   border: 0;
   cursor: pointer;
 

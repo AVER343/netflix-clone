@@ -6,7 +6,7 @@ config = {
   database:'postgres',
   password:'postgres',
   user:'postgres',
-  host:'postgres-server'
+  host:'localhost'
 }
 // if(process.env.NODE_ENV=='production')
 //     {

@@ -6,11 +6,18 @@ import Server from '../server'
 const DEFAULT_CACHING_SECONDS=60*15
 let authentication =async(req:any,res:any,next:any)=>{
    try{
-    if(!req.cookies.JWT && !req.headers['Authorization'])
+       let allowedUnverifiedUsers=['/users/otp/generate']
+    if(!req.cookies.JWT && !req.headers['Authorization'] && !req.cookies['next-auth.session-token'])
     {
          return HandleResponse(res,Messages.UNAUTHENTICATED,{type:'error',statusCode:400})
     }
-     const JWT = req.cookies.JWT || req.headers['Authorization'].split('Bearer ')[1]
+    let nextToken:any
+    if(req.cookies['next-auth.session-token']){
+        nextToken = await jwt.decode(req.cookies['next-auth.session-token'])
+        nextToken=nextToken['user']['jwt']
+     }
+
+     let JWT = req.cookies.JWT || req.headers['Authorization']?.split('Bearer ')[1] || nextToken
      let verified_user = await jwt.verify(JWT,`process.env.JWT_SECRET`)
         if(!verified_user)
             {
@@ -28,11 +35,9 @@ let authentication =async(req:any,res:any,next:any)=>{
             }
             if(res)
             {
-                console.log('hitting cache')
                 user=JSON.parse(res)
             }
             else{
-                console.log('NOT hitting cache')
                 user = await User.findOne({email:hasKey(verified_user,'email')})
                 if(!user)
                     {
@@ -40,7 +45,10 @@ let authentication =async(req:any,res:any,next:any)=>{
                     }
                 if(!user.getUser()['user_verified'])
                     {
-                        throw new Error('User has not yet been verified !')
+                        if(!allowedUnverifiedUsers.includes(req.originalUrl))
+                            {
+                                throw new Error('User has not yet been verified !')
+                            }
                     }
             Server.RedisClient.SETEX(hasKey(verified_user,'email'),DEFAULT_CACHING_SECONDS,JSON.stringify(user.getUser()),)
             user = user.getUser()

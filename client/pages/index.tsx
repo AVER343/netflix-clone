@@ -1,6 +1,7 @@
 // import Head from 'next/head'
 // import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
+import { getSession } from 'next-auth/client'
 import React from 'react'
 import { Feature, OptForm } from '../components'
 import {JumboTronContainer,Header} from '../containers'
@@ -27,4 +28,9 @@ export default function Home(props:any) {
           </div>
   )
 }
-
+export async function getServerSideProps(context){
+  const session =await getSession(context)
+  return {
+    props:{session}
+  }
+}

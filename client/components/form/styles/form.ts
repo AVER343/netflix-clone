@@ -74,6 +74,22 @@ export const Input = styled.input`
   }
 `;
 
+export const OTPInput = styled.input`
+  background: #000;
+  width: 53px;
+  border-radius: 4px;
+  border:solid 1px grey;
+  color: #fff;
+  height: 75px;
+  line-height: 50px;
+  padding: 5px 20px;
+  margin-bottom: 20px;
+
+  &:last-of-type {
+    margin-bottom: 30px;
+  }
+`;
+
 export const Submit = styled.button`
   background: #e50914;
   border-radius: 4px;

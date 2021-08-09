@@ -18,7 +18,7 @@ class Server{
     static pool:Pool= pool;
     static RedisClient:redisType=new (Redis.createClient as any)({
         port:6379,
-        host:'redis-server'
+        host:'localhost'
     })
     constructor(PORT:number)
         {
@@ -73,14 +73,14 @@ class Server{
         })
         BULL_QUEUES.completion(QUEUE_TYPE.SEND_EMAIL_HIGH_PRIORITY,async(job)=>{
           try{
-            await Server.pool.query('BEGIN')
-            await  Server.pool.query(`UPDATE JOB_TABLE 
-                                      SET completed = true and completed_on = now() 
-                                      where id =$1::bigint`
-                                ,[job.id])
-            await  Server.pool.query('DELETE FROM QUEUE_ACTIVE where id =$1::bigint',[job.id])
-            await Server.pool.query('COMMIT')
-            await job.remove()
+                await Server.pool.query('BEGIN')
+                await  Server.pool.query(`UPDATE JOB_TABLE 
+                                        SET completed = true , completed_on = now() 
+                                        where id =$1::bigint`
+                                    ,[Number(job.id)])
+                await  Server.pool.query('DELETE FROM QUEUE_ACTIVE where id =$1::bigint',[job.id])
+                await Server.pool.query('COMMIT')
+                await job.remove()
           }
           catch(e){
               console.log(e)

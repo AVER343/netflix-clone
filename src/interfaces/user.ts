@@ -6,4 +6,5 @@ export interface User_Interface{
     id?:number;
     user_verified?:boolean;
     user_role_type_id?:string;
+    user_custom_properties?:any;
 }

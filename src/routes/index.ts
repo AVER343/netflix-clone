@@ -2,10 +2,12 @@ import express from 'express'
 import AdminRouter from './admin-routes'
 // import DocumentationRouter from './documentation-routes'
 import UserRouter from './user-routes'
+import ContentRouter from './content-routes'
 import HandleResponse, { Messages } from '../utils/handleResponse'
 const RouterConfig = express.Router()
 
 RouterConfig.all('/users/*',UserRouter)
+RouterConfig.all('/content/*',ContentRouter)
 RouterConfig.all('/admin/*',AdminRouter)
 // RouterConfig.all('/documentation/*',DocumentationRouter)
 RouterConfig.all('/*',(req,res)=>{

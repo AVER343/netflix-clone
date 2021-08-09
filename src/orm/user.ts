@@ -6,6 +6,7 @@ import { BULL_QUEUES } from "../services";
 import { QUEUE_TYPE } from "../services/bull/utils/queue-names";
 import { randomNumber } from "../utils/utisl";
 import { ROLES } from "../utils/roles";
+let NUMBE_OF_PROFILE_ICONS=5
 const hasKey = (obj:any,key:string)=>{
     return obj && obj[key]
 }
@@ -19,7 +20,10 @@ class User{
         return this.user
     }
     static  async findOne(user:User_Interface){
-        let query=`SELECT email,created_time,id,modified_time,user_verified,USER_ROLE_TYPE_ID,username FROM USERS `;
+        let query=`SELECT email,created_time,U.id,modified_time
+                    ,user_verified,USER_ROLE_TYPE_ID,username
+                    ,user_custom_properties FROM USERS U
+                    JOIN USER_DETAILS UD ON U.id=UD.id `;
         let args:string[]= []
         let argumentsCanBeSearched= ['email','username'] // Add the keys that you want the unique columns for.
         argumentsCanBeSearched.forEach((e)=>{
@@ -81,11 +85,24 @@ class User{
      }
     private  async createUser(user:User_Interface){
        try{
+            let photoURL = Math.floor(Math.random()*(NUMBE_OF_PROFILE_ICONS-1))
+            while(photoURL<=0||photoURL>=NUMBE_OF_PROFILE_ICONS)
+            {
+                photoURL = Math.floor(Math.random()*(NUMBE_OF_PROFILE_ICONS-1))
+            }
             let encryptedPassword = await bcrypt.hash(user.password!,8)
-            let saved_user = await User.pool.query(`INSERT INTO 
-                                                    USERS(email,password,created_time,modified_time,user_role_type_id,username) 
-                                                    VALUES($1,$2,now(),now(),(SELECT id from USER_ROLE_TYPE WHERE user_role= $3),$4) returning *`,
-                                                    [user.email,encryptedPassword,ROLES.DEFAULT,user.username])
+            User.pool.query('BEGIN')
+            let saved_user = await User
+                                .pool
+                                .query(`
+            INSERT INTO USERS(email,password,created_time,modified_time,user_role_type_id,username) 
+            VALUES($1,$2,now(),now(),(SELECT id from USER_ROLE_TYPE WHERE user_role= $3),$4) 
+            returning *             
+                                        `,
+                [user.email?.toLowerCase(),encryptedPassword,ROLES.DEFAULT,user.username])
+             await User.pool.query(`INSERT INTO USER_DETAILS(id,user_custom_properties) VALUES($1,$2) returning *`,
+                                                    [saved_user.rows[0].id,{photoURL}])
+            User.pool.query('COMMIT')
             this.user = new User(saved_user.rows[0]).getUser()
        }
        catch(e:any){
@@ -120,9 +137,9 @@ class User{
     }
     public async getOTP(email:string){
         try{
-            let OTP = randomNumber(6)
+            let OTP = randomNumber(5)
             await Server.pool.query('BEGIN')
-            await Server.pool.query('INSERT INTO USER_OTP(OTP,email) VALUES($1,$2);',[OTP,email])
+            await Server.pool.query('INSERT INTO USER_OTP(OTP,email) VALUES($1,$2);',[OTP,email.toLowerCase()])
             await Server.pool.query('COMMIT')
             return OTP
         }

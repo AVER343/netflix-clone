@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-     "build": "npx typescript",
+    "build": "npx typescript",
     "build:watch": "npx typescript -w",
     "dev": "npx concurrently \"npm run build\" \"npm run dev:run\"",
     "dev:watch": "npx concurrently \"npm run build:watch\" \"npm run dev:run\"",
     "dev:run": "npx nodemon lib/index.js",
-    "start": "node lib/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run configure && nodemon index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "configure": "bash configure.db.sh"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +43,7 @@
     "i": "^0.3.6",
     "ioredis": "^4.27.6",
     "jsonwebtoken": "^8.5.1",
+    "node-media-server": "^2.3.8",
     "nodemailer": "^6.6.1",
     "nodemon": "^2.0.7",
     "npm": "^7.17.0",

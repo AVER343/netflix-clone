@@ -1,5 +1,6 @@
 import express ,{Request,Response} from 'express'
 import {body, header,validationResult} from 'express-validator'
+import authentication from '../../../middleware/auth'
 import set_API_NAME from '../../../middleware/setAPIName_checkpermission'
 import User from '../../../orm/user'
 import Server from '../../../server'
@@ -21,7 +22,7 @@ OTP.post('/update',
                     return HandleResponse(res,result.array(),{type:'error',statusCode:400})
                 }
                 let otp = hasKey(req.body,'otp')
-                let email = hasKey(req.body,'email')
+                let email = hasKey(req.body,'email').toLowerCase()
                 let user  = await User.findOne({email})
                 if(!user)
                 {
@@ -39,6 +40,7 @@ OTP.post('/update',
         }
     })
 OTP.get('/generate',
+    authentication,
     header('email').isEmail().withMessage(('Invalid email !')),
        async(req:Request,res:Response)=>{
           try{
@@ -47,14 +49,14 @@ OTP.get('/generate',
                {
                    return HandleResponse(res,result.array(),{type:'error',statusCode:400})
                }
-               let email = hasKey(req.headers,'email')
+               let email = hasKey(req.headers,'email').toLowerCase()
                let user  = await User.findOne({email})
                if(!user)
                {
                    return HandleResponse(res,Messages.USER_NOT_EXIST,{type:'error',statusCode:400})
                }
               let OTP = await user.getOTP(email)
-              
+              console.log(OTP)
               await User.sendEmail({email,OTP},undefined,user.getUser().id)
              return HandleResponse(res,Messages.OTP_SENT,{type:'success',statusCode:200})
           }
@@ -68,13 +70,13 @@ OTP.post('/verify/account',
      body('otp').isLength({min:1}).withMessage(('Invalid OTP !')),
         async(req:Request,res:Response)=>{
            try{
-                let result = validationResult(req)
+            let result = validationResult(req)
                 if(!result.isEmpty())
                 {
                     return HandleResponse(res,result.array(),{type:'error',statusCode:400})
                 }
                 let otp = hasKey(req.body,'otp')
-                let email = hasKey(req.body,'email')
+                let email = hasKey(req.body,'email').toLowerCase()
                 let user  = await User.findOne({email})
                 if(!user)
                 {

@@ -45,8 +45,7 @@ export default function SignIn() {
 
 
   return (
-    <>
-      <Header>
+    <Header>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Title>Sign Up</Form.Title>
           {error && <Form.Error data-testid="error">{error}</Form.Error>}
@@ -87,8 +86,7 @@ export default function SignIn() {
             </Form.Link>
           </Form.Text>
         </Form>
-      </Header>
       <Footer/>
-    </>
+    </Header>
   );
 }

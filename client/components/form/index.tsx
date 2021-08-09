@@ -1,5 +1,6 @@
-import React from 'react';
-import { Container, Error, Base, Title, Text, TextSmall, Link as LinkComponent, Input, Submit } from './styles/form';
+import React, { useEffect } from 'react';
+import {Grid,Box} from '@chakra-ui/react'
+import { Container, Error, Base, Title,OTPInput, Text, TextSmall, Link as LinkComponent, Input, Submit } from './styles/form';
 export default function Form({ children, ...restProps }:any) {
   return <Container {...restProps}>{children}</Container>;
 }
@@ -35,3 +36,8 @@ Form.Input = function FormInput({ children, ...restProps }:any) {
 Form.Submit = function FormSubmit({ children, ...restProps }:any) {
   return <Submit {...restProps}>{children}</Submit>;
 };
+
+Form.OTPInput = function FormError({ children,value, ...restProps }:any) {
+  useEffect(()=>{},[value])
+  return <OTPInput onKeyPress={(e)=>console.log(e)}  value={value} {...restProps}>{children}</OTPInput>;
+      };

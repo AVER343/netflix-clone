@@ -1,12 +1,12 @@
 
 import { ClientHost, ROUTES} from '../../Shared/Constants'
-import { signIn, useSession } from 'next-auth/client'
+import { getSession, signIn, useSession } from 'next-auth/client'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useState,useContext } from 'react'
 const VARIANT_COLOR = 'teal'
 import { Form } from '../../components';
 import { Header,Footer } from '../../containers';
-export default function SignIn() {
+export default function SignIn(props) {
   const [email, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,7 +24,7 @@ export default function SignIn() {
 
   return (
     <>
-      <Header>
+    <Header>
         <Form>
           <Form.Title>Sign In</Form.Title>
           {error && <Form.Error data-testid="error">{error}</Form.Error>}
@@ -58,8 +58,8 @@ export default function SignIn() {
             This page is protected by Google reCAPTCHA to ensure you're not a bot. Learn more.
           </Form.TextSmall> */}
         </Form>
-      </Header>
+    </Header>
       <Footer/>
-    </>
+      </>
   );
 }

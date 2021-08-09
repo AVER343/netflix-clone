@@ -14,6 +14,7 @@ UserRouter.all('*/signup',Signup)
 UserRouter.all('*/me',Me)
 UserRouter.all('*/logout',Logout)
 UserRouter.use('*/otp',OTP)
+UserRouter.all('/profile/*',OTP)
 
 
 export default UserRouter

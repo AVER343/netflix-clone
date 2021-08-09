@@ -45,9 +45,13 @@ Header.Logo = function HeaderLogo({ to, ...restProps }) {
   );
 };
 
-Header.Search = function HeaderSearch({ searchTerm, setSearchTerm, ...restProps }) {
+Header.Search = function HeaderSearch({ getContent,searchTerm, setSearchTerm, ...restProps }) {
   const [searchActive, setSearchActive] = useState(false);
-
+  let _handleKeyDown= function(e) {
+    if (e.key === 'Enter') {
+      getContent()
+    }
+  }
   return (
     <Search {...restProps}>
       <SearchIcon onClick={() => setSearchActive((searchActive) => !searchActive)} data-testid="search-click">
@@ -55,6 +59,7 @@ Header.Search = function HeaderSearch({ searchTerm, setSearchTerm, ...restProps 
       </SearchIcon>
       <SearchInput
         value={searchTerm}
+        onKeyDown={_handleKeyDown} 
         onChange={({ target }) => setSearchTerm(target.value)}
         placeholder="Search films and series"
         active={searchActive}
