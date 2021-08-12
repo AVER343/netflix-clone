@@ -2,6 +2,7 @@ import { getSession, signOut, useSession } from "next-auth/client"
 import React, { createRef, useEffect, useRef, useState } from "react";
 import {Card,LoadingProfile,Header,Player,BrowseHeader} from "../../components";
 import { SelectProfileContainer,Footer } from "../../containers";
+import {motion} from 'framer-motion'
 import FooterContainer from "../../containers/Footer";
 import API from "../../Shared/API";
 import { ROUTES } from "../../Shared/Constants";
@@ -107,12 +108,17 @@ const SelectProfile=(props:any)=>{
                     <BrowseHeader getContent={getContent} session={session} logo= {logo} category= {category} searchTerm={searchTerm} setSearchTerm={setSearchTerm} setCategory={setCategory}/>
                     <div>
                       {Types.map((type:string,i)=>{
-                      return <div style={{margin:'3vw 0'}}>
+                      return <div style={{margin:'3vw 0' , overflowX:'visible',margin:'2vw'}}>
                       <div style={{ magin:'0 4% .5em 4%',fontSize:'1.4vw',color:'var(--text-color-primary)',}}>{type.charAt(0).toUpperCase() + type.slice(1)}</div>
                       <Grid templateColumns="repeat(5,1fr)" gap={1}>
                           {content?.filter((e)=>e.data.genre.includes(type))
                                     .map(({data,id},index)=>
-                                            <Box  w="100%">
+                                            <motion.div  w="100%"   
+                                            whileHover={{
+                                              scale: 1.1,
+                                              transition: { duration: .3 },
+                                              zIndex:2
+                                            }}>
                                               <Img ref={ref[i]} 
                                                   onClick={async()=>{
                                                    await handleClick(i,index);
@@ -120,7 +126,7 @@ const SelectProfile=(props:any)=>{
                                                   }} 
                                                   placeholder="blur" 
                                                   alt={`${data.slug}`}
-                                                  src={`/images/${category}/${data.genre}/${data.slug}/small.jpg`}/></Box>)}
+                                                  src={`/images/${category}/${data.genre}/${data.slug}/small.jpg`}/></motion.div>)}
                       </Grid> 
                      {isAccodionOpen[i]
                      && isAccodionOpen[i]==true 
