@@ -1,7 +1,11 @@
 import React, { useState, useContext, createContext } from 'react';
 import ReactDOM from 'react-dom';
+import dynamic from 'next/dynamic'
 import { Container, Button, Overlay, Inner, Close } from './styles/player';
-
+const CustomPlayer = dynamic(
+  () => import('./player'),
+  { ssr: false }
+)
 export const PlayerContext = createContext();
 
 export default function Player({ children, ...restProps }) {
@@ -21,9 +25,7 @@ Player.Video = function PlayerVideo({ src, ...restProps }) {
     ? ReactDOM.createPortal(
         <Overlay onClick={() => setShowPlayer(false)} data-testid="player">
           <Inner>
-            <video id="netflix-player" controls>
-              <source src={src} type="video/mp4" />
-            </video>
+            <CustomPlayer src='https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd'/>
             <Close />
           </Inner>
         </Overlay>,
